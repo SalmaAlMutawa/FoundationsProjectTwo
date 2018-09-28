@@ -14,15 +14,17 @@ def print_stores():
     print ("Please choose a store: ")
     for store in stores:
         print (store.name)
+    print ("\nPlease choose a store name.")
+
 def get_store(store_name):
     """
     receives a name for a store, and returns the store object with that name.
     """
-    
     for store in stores:
         if store.name.lower() == store_name.lower():
-            print("\nThank you for choosing %s" %store.name)
             return store
+        elif store.name.lower()=="checkout":
+            return "checkout"
     return False
 
 def pick_store():
@@ -32,10 +34,13 @@ def pick_store():
     print_stores()
     choice = input().lower()
     usr_inp = get_store(choice)
-    while usr_inp == False:
+    while usr_inp == False and usr_inp != "checkout":
         choice_2 = input ("Sorry invalid store, please try again: ")
         return get_store(choice_2)
+    if usr_inp == "checkout":
+        return pick_products(cart, "checkout")
     return get_store(choice)
+    print("\nThank you for choosing %s" %choice)
  
 def pick_products(cart, picked_store):
     """
@@ -59,7 +64,7 @@ def pick_products(cart, picked_store):
         
         if flag == False:
             print ("Sorry we don't have this product.")
-        user_choice = input("\nWhat else? ")
+        user_choice = input("\nWhat else? Or enter checkout to exit. ")
 
     if user_choice == "back":
         picked_store = pick_store()

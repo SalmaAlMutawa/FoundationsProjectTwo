@@ -18,6 +18,7 @@ class Store():
         """
         for product in self.products:
             print (product)
+        print ("Enter back to go to the main menu, or checkout to exit.")
 
 class Product():
     def __init__(self, name, description, price):
@@ -64,7 +65,7 @@ class Cart():
         print ("------------------------------------------------------------------------")
         print ("Your cart includes the following:")
         for product in self.products:
-            print ("\n  %s" %product)
+            print ("\t  %s" %product)
         print ("Your total is: %s KD" %self.get_total_price())
         print ("------------------------------------------------------------------------")
     
