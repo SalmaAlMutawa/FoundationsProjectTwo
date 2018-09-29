@@ -18,7 +18,6 @@ class Store():
         """
         for product in self.products:
             print (product)
-        print ("Enter back to go to the main menu, or checkout to exit.")
 
 class Product():
     def __init__(self, name, description, price):
@@ -31,7 +30,7 @@ class Product():
 
     def __str__(self):
         # your code goes here!
-        return str("\nProduct Name: %s\nProduct Description: %s\nPrice: %s KD\n" %(self.name, self.description, self.price))
+        return str("\n\tProduct Name: %s\n\tProduct Description: %s\n\tPrice: %s KD\n" %(self.name, self.description, self.price))
 
 
 class Cart():

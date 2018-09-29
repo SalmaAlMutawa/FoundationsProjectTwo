@@ -11,9 +11,9 @@ def print_stores():
     """
     prints the list of stores in a nice readable format.
     """
-    print ("Please choose a store: ")
+    print ("Please choose a store: \n")
     for store in stores:
-        print (store.name)
+        print ("> %s" % store.name)
     print ("\nPlease choose a store name.")
 
 def get_store(store_name):
@@ -23,8 +23,6 @@ def get_store(store_name):
     for store in stores:
         if store.name.lower() == store_name.lower():
             return store
-        elif store.name.lower()=="checkout":
-            return "checkout"
     return False
 
 def pick_store():
@@ -32,27 +30,34 @@ def pick_store():
     prints list of stores and prompts user to pick a store.
     """
     print_stores()
-    choice = input().lower()
-    usr_inp = get_store(choice)
-    while usr_inp == False and usr_inp != "checkout":
-        choice_2 = input ("Sorry invalid store, please try again: ")
-        return get_store(choice_2)
-    if usr_inp == "checkout":
-        return pick_products(cart, "checkout")
-    return get_store(choice)
-    print("\nThank you for choosing %s" %choice)
+    usr_inp = False
+    while usr_inp == False:
+        usr_inp = input()
+        if usr_inp.lower() == "checkout":
+            return "checkout"
+
+        store_obj = get_store(usr_inp)
+        if store_obj != False:
+            print("\nThank you for choosing %s" % store_obj.name)
+            return store_obj
+
+        print("Sorry invalid store, please try again: ")
+        usr_inp = False
+
+    # return get_store(choice)
  
 def pick_products(cart, picked_store):
     """
     prints list of products and prompts user to add products to card.
     """
     picked_store.print_products()
-
+    print ("Enter \"back\" to go to the main menu, or \"checkout\" to exit.")
+    print("Pick the items you'd like to add in your cart by typing the product name exactly as it was spelled above.")
     user_choice = input("Choose your product: ")
     while user_choice != "back":
         if user_choice == "checkout":
-            cart.checkout()
-            return 
+            return "checkout"
+
         flag = False
         for product in picked_store.products:
             # print("COMPARING %s with %s"%(user_choice.lower(), product.name.lower()))
@@ -66,9 +71,7 @@ def pick_products(cart, picked_store):
             print ("Sorry we don't have this product.")
         user_choice = input("\nWhat else? Or enter checkout to exit. ")
 
-    if user_choice == "back":
-        picked_store = pick_store()
-        pick_products(cart, picked_store)
+    return "back"
     
 
 
@@ -77,10 +80,18 @@ def shop():
     """
     The main shopping functionality
     """
-    picked_store =pick_store()
     cart = Cart()
-    pick_products(cart,picked_store)
-    #cart.checkout()
+    picked_store = ""
+    while picked_store != "checkout":
+        picked_store = pick_store()
+        if picked_store == "checkout":
+            break
+
+        option = pick_products(cart,picked_store)
+        if option.lower() == "checkout":
+            break
+
+    cart.checkout()
     # your code goes here!
 
 def thank_you():
